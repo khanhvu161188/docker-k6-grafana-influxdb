@@ -1,17 +1,10 @@
 version: '3.4'
 
-networks:
-  k6:
-  grafana:
-
 services:
   influxdb:
-    image: influxdb:latest
+    image: influxdb:1.8
 #    entrypoint: /bin/sh
 #    user: root
-    networks:
-      - k6
-      - grafana
     ports:
       - "8086:8086"
     environment:
@@ -21,8 +14,6 @@ services:
     image: grafana/grafana:latest
 #    entrypoint: /bin/sh
 #    user: root
-    networks:
-      - grafana
     ports:
       - "3000:3000"
     environment:
@@ -38,8 +29,7 @@ services:
     image: loadimpact/k6:latest
 #    entrypoint: /bin/sh
 #    user: root
-    networks:
-      - k6
+    command: run /scripts/ewoks.js
     ports:
       - "6565:6565"
     environment:
